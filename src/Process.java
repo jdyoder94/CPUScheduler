@@ -1,5 +1,5 @@
 public class Process {
-	private int m_arrival_time, m_burst, m_wait_time, m_turnaround, m_remaining_burst;
+	private int m_arrival_time, m_burst, m_wait_time, m_turnaround, m_remaining_burst, m_time_in_processor;
 	private String m_name;
 	private Boolean m_ready;
 	
@@ -11,6 +11,7 @@ public class Process {
 		m_wait_time = 0;
 		set_turnaround(0);
 		m_remaining_burst = burst;
+		m_time_in_processor = 0;
 	}
 	
 	public int get_arrival_time() {
@@ -57,5 +58,11 @@ public class Process {
 		this.m_turnaround = m_turnaround;
 	}
 	
+	public int get_tip(){
+		return m_time_in_processor;
+	}
+	public void increment_tip(){
+		m_time_in_processor++;
+	}
 	
 }
