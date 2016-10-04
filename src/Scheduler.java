@@ -8,7 +8,7 @@ public abstract class Scheduler {
 	public Scheduler(int processcount, int runtime) {
 		m_runtime = runtime;
 		m_processcount = processcount;
-		m_current_time = -1;
+		m_current_time = 0;
 		m_processing = false;
 	}
 	

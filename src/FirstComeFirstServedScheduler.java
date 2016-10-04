@@ -19,33 +19,29 @@ public class FirstComeFirstServedScheduler extends Scheduler {
 		print_processor_info();
 		
 		while(this.get_current_time() < this.get_runtime()){
-			advance_timer();
+			
 			check_arrivals(process_list);
 			
 			if(!this.processing()) {
 				if(ready_queue.isEmpty()){
 					append_to_file("Time " + this.get_current_time() + ": Idle");
+					advance_timer();
 					continue;
 				}
-				else{
-					this.set_current_process(ready_queue.remove());
-					append_to_file("Time " + this.get_current_time() + ": " + this.get_current_process().get_name() + " selected (burst " + this.get_current_process().get_remaining_burst() + ")" + "\n");
-					this.set_processing(true);
-				}
+				else
+					select_process();
 			}
 			else {
 				this.get_current_process().decrement_burst();
 				if( this.get_current_process().get_remaining_burst() == 0) {
 					end_processing();
-					if(!ready_queue.isEmpty()){
-						this.set_current_process(ready_queue.remove());
-						append_to_file("Time " + this.get_current_time() + ": " + this.get_current_process().get_name() + " selected (burst " + this.get_current_process().get_remaining_burst() + ")" + "\n");
-						this.set_processing(true);
-					}
+					if(!ready_queue.isEmpty())
+						select_process();
 				}
 			}
 
 			increment_wait_times();
+			advance_timer();
 		}
 		
 		append_to_file("Finished at time " + this.get_runtime() + "\n");
@@ -77,6 +73,12 @@ public class FirstComeFirstServedScheduler extends Scheduler {
 		for(Process i_process : ready_queue) {
 			i_process.increment_wait_time();
 		}
+	}
+	
+	public void select_process() {
+		this.set_current_process(ready_queue.remove());
+		append_to_file("Time " + this.get_current_time() + ": " + this.get_current_process().get_name() + " selected (burst " + this.get_current_process().get_remaining_burst() + ")" + "\n");
+		this.set_processing(true);
 	}
 	
 	public void print_processor_info() {
