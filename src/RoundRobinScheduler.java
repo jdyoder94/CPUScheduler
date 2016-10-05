@@ -23,7 +23,7 @@ public class RoundRobinScheduler extends Scheduler {
 print_processor_info();
 		
 		while(this.get_current_time() < this.get_runtime()){
-			advance_timer();
+			
 			check_arrivals(process_list);
 			
 			if(!this.processing()) {
@@ -68,6 +68,7 @@ print_processor_info();
 			}
 
 			increment_wait_times();
+			advance_timer();
 		}
 		
 		append_to_file("Finished at time " + this.get_runtime() + "\n");
